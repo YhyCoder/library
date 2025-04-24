@@ -1,7 +1,82 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+
+:root {
+  --primary-text: hsl(200, 18%, 97%);
+  --secondary-text: hsl(220, 4%, 28%);
+  --primary-background: hsl(220, 4%, 28%);
+  --secondary-background: hsl(50, 91%, 52%);
+  --light-bacground: hsl(200, 18%, 97%);
+  --button-hover: hsl(50, 91%, 62%);
+  --border-size: 2px;
+}
+
 *,
 *::before,
 *::after {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+body {
+  background-color: var(--light-bacground);
+}
+
+.header {
+  padding: 1.5em 0;
+  color: var(--primary-text);
+  background-color: var(--primary-background);
+}
+
+.container {
+  width: 80%;
+  margin: auto;
+}
+
+.container--flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header__title {
+  font-size: 2.2rem;
+}
+
+.button {
+  position: relative;
+  z-index: 0;
+  padding: 0.5em 1em;
+  border: none;
+  font-size: 1.05rem;
+  font-weight: 500;
+  cursor: pointer;
+  color: var(--secondary-text);
+  background-color: var(--secondary-background);
+}
+
+.button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+  border: var(--border-size) solid var(--secondary-background);
+  transition: all 0.2s ease-in-out;
+}
+
+.button:hover::before,
+.button:focus::before {
+  top: calc(var(--border-size) * -2);
+  right: calc(var(--border-size) * -2);
+  bottom: calc(var(--border-size) * -2);
+  left: calc(var(--border-size) * -2);
 }
