@@ -5,6 +5,7 @@
   --secondary-text: hsl(220, 4%, 28%);
   --primary-background: hsl(220, 4%, 28%);
   --secondary-background: hsl(50, 91%, 52%);
+  --tertiary-background: hsl(160, 13%, 33%);
   --light-bacground: hsl(200, 18%, 97%);
   --button-hover: hsl(50, 91%, 62%);
   --border-size: 2px;
@@ -28,6 +29,8 @@ body {
   background-color: var(--light-bacground);
 }
 
+/*** Header Section ***/
+
 .header {
   padding: 1.5em 0;
   color: var(--primary-text);
@@ -35,7 +38,7 @@ body {
 }
 
 .container {
-  width: 80%;
+  width: 85%;
   margin: auto;
 }
 
@@ -79,4 +82,60 @@ body {
   right: calc(var(--border-size) * -2);
   bottom: calc(var(--border-size) * -2);
   left: calc(var(--border-size) * -2);
+}
+
+/*** Main Section ***/
+
+.library {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1em;
+  padding: 2em 0;
+}
+
+.book {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 2.5em;
+  padding: 1em 1.5em;
+  border-radius: 5px;
+  color: var(--primary-text);
+  background-color: var(--tertiary-background);
+}
+
+.book__title {
+  /* margin-bottom: 1.5em; */
+  text-align: center;
+}
+
+.book__info {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  margin-bottom: 1em;
+}
+
+.book__buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5em;
+  /* margin-top: 2em; */
+}
+
+.button--read {
+  background-color: hsl(132, 91%, 52%);
+}
+
+.button--read::before {
+  border-color:hsl(132, 91%, 52%);
+}
+
+.button--unread {
+  color: var(--primary-text);
+  background-color: hsl(356, 91%, 52%);
+}
+
+.button--unread::before {
+  border-color: hsl(356, 91%, 52%);
 }
