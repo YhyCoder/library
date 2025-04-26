@@ -5,9 +5,71 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Library</title>
     <link rel="stylesheet" href="./style.css" />
-    <script defer src="./script.js"></script>
   </head>
   <body>
+    <div class="modal-wrapper hidden">
+      <section class="modal">
+        <h2 class="modal__title">Add New Book</h2>
+        <i class="modal__close" data-feather="x"></i>
+        <form action="#" method="GET">
+          <div class="modal__field">
+            <label class="modal__label" for="book-title">Title</label>
+            <input
+              id="book-title"
+              class="modal__input"
+              type="text"
+              name="book-title"
+              placeholder="new book title..."
+              required
+            />
+          </div>
+
+          <div class="modal__field">
+            <label class="modal__label" for="book-author">Author</label>
+            <input
+              id="book-author"
+              class="modal__input"
+              type="text"
+              name="book-author"
+              placeholder="new book author..."
+              required
+            />
+          </div>
+
+          <div class="modal__field">
+            <label class="modal__label" for="book-pages">Pages</label>
+            <input
+              id="book-pages"
+              class="modal__input"
+              type="number"
+              name="book-pages"
+              placeholder="new book pages..."
+              min="1"
+              required
+            />
+          </div>
+
+          <div class="modal__switch">
+            <label class="modal__label" for="book-title">Read</label>
+            <div class="switch">
+              <input
+                class="switch__checkbox"
+                id="book-status"
+                type="checkbox"
+                name="book-status"
+              />
+              <label class="switch__button" for="book-status"></label>
+            </div>
+          </div>
+        </form>
+        <div class="modal__button">
+          <button class="button button--error" type="button">Cancel</button>
+          <button class="button button--success" type="button">Add</button>
+        </div>
+      </section>
+      <div class="modal-overlay"></div>
+    </div>
+
     <header class="header">
       <div class="container container--flex">
         <h1 class="header__title">Library</h1>
@@ -34,7 +96,7 @@
           </div>
           <div class="book__buttons">
             <button class="button" type="button">Delete</button>
-            <button class="button button--read" type="button">Read</button>
+            <button class="button button--success" type="button">Read</button>
           </div>
         </section>
 
@@ -56,7 +118,7 @@
           </div>
           <div class="book__buttons">
             <button class="button" type="button">Delete</button>
-            <button class="button button--unread" type="button">Not Read</button>
+            <button class="button button--error" type="button">Not Read</button>
           </div>
         </section>
 
@@ -78,7 +140,7 @@
           </div>
           <div class="book__buttons">
             <button class="button" type="button">Delete</button>
-            <button class="button button--unread" type="button">Not Read</button>
+            <button class="button button--error" type="button">Not Read</button>
           </div>
         </section>
 
@@ -100,10 +162,16 @@
           </div>
           <div class="book__buttons">
             <button class="button" type="button">Delete</button>
-            <button class="button button--read" type="button">Read</button>
+            <button class="button button--success" type="button">Read</button>
           </div>
         </section>
       </section>
     </main>
+
+    <script src="./script.js"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script>
+      feather.replace();
+    </script>
   </body>
 </html>
