@@ -171,6 +171,7 @@ body {
   width: 400px;
   padding: 1em 2em;
   border-radius: 5px;
+  transition: all 0.2s ease-in-out;
   color: var(--primary-text);
   background-color: var(--primary-background);
 }

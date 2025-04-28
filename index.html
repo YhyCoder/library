@@ -63,8 +63,10 @@
           </div>
         </form>
         <div class="modal__button">
-          <button class="button button--error" type="button">Cancel</button>
-          <button class="button button--success" type="button">Add</button>
+          <button class="button button--error modal__cancel" type="button">
+            Cancel
+          </button>
+          <button class="button button--success modal__add" type="submit">Add</button>
         </div>
       </section>
       <div class="modal-overlay"></div>
@@ -73,17 +75,19 @@
     <header class="header">
       <div class="container container--flex">
         <h1 class="header__title">Library</h1>
-        <button class="button" type="button">Add New Book</button>
+        <button class="button header__button" type="button">
+          Add New Book
+        </button>
       </div>
     </header>
     <main class="container">
       <section class="library"></section>
     </main>
 
-    <script src="./script.js"></script>
     <script src="https://unpkg.com/feather-icons"></script>
     <script>
       feather.replace();
     </script>
+    <script src="./script.js"></script>
   </body>
 </html>

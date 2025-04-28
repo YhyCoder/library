@@ -1,26 +1,33 @@
 const library = document.querySelector(".library");
+const modalWrapper = document.querySelector(".modal-wrapper");
+const newBookButton = document.querySelector(".header__button");
+const modalCloseButton = document.querySelector(".modal__close");
+const modalCancelButton = document.querySelector(".modal__cancel");
+const modalAddButton = document.querySelector(".modal__add");
+const modalInputs = document.querySelectorAll(".modal__input");
+const switchCheckbox = document.querySelector(".switch__checkbox");
 
 const myLibrary = [
   {
-    id: 1,
+    id: crypto.randomUUID(),
     title: "Harry Potter",
     author: "J. K. Rowling",
     pages: 223,
-    read: "Not read yet",
+    readStatus: "Not read yet",
   },
   {
-    id: 2,
+    id: crypto.randomUUID(),
     title: "The Catcher in the Rye",
     author: "J.D. Salinger",
     pages: 240,
-    read: "Read",
+    readStatus: "Read",
   },
   {
-    id: 3,
+    id: crypto.randomUUID(),
     title: "To Kill a Mockingbird",
     author: "Harper Lee",
     pages: 281,
-    read: "Read",
+    readStatus: "Read",
   },
 ];
 
@@ -38,25 +45,38 @@ function addBookToLibrary(title, author, pages, readStatus) {
   myLibrary.push(book);
 }
 
-// create 3 book__info for Author, Pages and Status
-function createBookInfo(heading, info, infoClass) {
-  const bookInfo = document.createElement("div");
-  bookInfo.classList.add("book__info");
+function addNewBook() {
+  let title;
+  let author;
+  let pages;
+  let readStatus;
 
-  const bookHeading = document.createElement("h3");
-  bookHeading.textContent = heading;
+  modalInputs.forEach((input) => {
+    if (input.id === "book-title") {
+      title = input.value;
+    } else if (input.id === "book-author") {
+      author = input.value;
+    } else if (input.id === "book-pages") {
+      pages = Number(input.value);
+    }
+  });
 
-  const bookInfoItem = document.createElement("span");
-  bookInfoItem.classList.add(infoClass);
-  bookInfoItem.textContent = info;
+  if (!title || !author || !pages) {
+    alert("Please fill all the fields!");
+    return;
+  }
 
-  bookInfo.appendChild(bookHeading);
-  bookInfo.appendChild(bookInfoItem);
+  if (switchCheckbox.checked) {
+    readStatus = "Read";
+  } else {
+    readStatus = "Not read yet";
+  }
 
-  return bookInfo;
+  addBookToLibrary(title, author, pages, readStatus);
+  return true;
 }
 
-myLibrary.forEach((book) => {
+function createBookCard(book) {
   // book
   const bookCard = document.createElement("section");
   bookCard.classList.add("book");
@@ -80,7 +100,7 @@ myLibrary.forEach((book) => {
     createBookInfo("Pages:", book.pages, "book__pages")
   );
   bookInfoWrapper.appendChild(
-    createBookInfo("Status:", book.read, "book__read")
+    createBookInfo("Status:", book.readStatus, "book__read")
   );
 
   // book__buttons
@@ -100,15 +120,71 @@ myLibrary.forEach((book) => {
   readStatusButton.classList.add("button");
 
   // Changes the content of the read status button to status heading.
-  if(book.read === "Read") {
+  if (book.readStatus === "Read") {
     readStatusButton.textContent = "Not Read";
     readStatusButton.classList.add("button--error");
   } else {
     readStatusButton.textContent = "Read";
     readStatusButton.classList.add("button--success");
-
   }
 
   buttonWrapper.appendChild(deleteButton);
   buttonWrapper.appendChild(readStatusButton);
+}
+
+function resetModalInput() {
+  modalInputs.forEach((input) => {
+    input.value = "";
+  });
+  switchCheckbox.checked = false;
+}
+
+function closeModal() {
+  resetModalInput();
+  modalWrapper.classList.add("hidden");
+}
+
+function displayBook() {
+  myLibrary.forEach((book) => {
+    createBookCard(book);
+  });
+}
+
+// create 3 book__info for Author, Pages and Status
+function createBookInfo(heading, info, infoClass) {
+  const bookInfo = document.createElement("div");
+  bookInfo.classList.add("book__info");
+
+  const bookHeading = document.createElement("h3");
+  bookHeading.textContent = heading;
+
+  const bookInfoItem = document.createElement("span");
+  bookInfoItem.classList.add(infoClass);
+  bookInfoItem.textContent = info;
+
+  bookInfo.appendChild(bookHeading);
+  bookInfo.appendChild(bookInfoItem);
+
+  return bookInfo;
+}
+
+// open and close modal window
+newBookButton.addEventListener("click", () => {
+  modalWrapper.classList.remove("hidden");
 });
+
+modalCloseButton.addEventListener("click", closeModal);
+
+modalCancelButton.addEventListener("click", closeModal);
+
+modalAddButton.addEventListener("click", (event) => {
+  event.preventDefault();
+  const isBookAdded = addNewBook();
+  if (isBookAdded) {
+    const newBook = myLibrary[myLibrary.length - 1];
+    createBookCard(newBook);
+    closeModal();
+  }
+});
+
+displayBook();
