@@ -76,10 +76,29 @@ function addNewBook() {
   return true;
 }
 
+// create 3 book__info for Author, Pages and Status
+function createBookInfo(heading, info, infoClass) {
+  const bookInfo = document.createElement("div");
+  bookInfo.classList.add("book__info");
+
+  const bookHeading = document.createElement("h3");
+  bookHeading.textContent = heading;
+
+  const bookInfoItem = document.createElement("span");
+  bookInfoItem.classList.add(infoClass);
+  bookInfoItem.textContent = info;
+
+  bookInfo.appendChild(bookHeading);
+  bookInfo.appendChild(bookInfoItem);
+
+  return bookInfo;
+}
+
 function createBookCard(book) {
   // book
   const bookCard = document.createElement("section");
   bookCard.classList.add("book");
+  bookCard.id = book.id;
   library.appendChild(bookCard);
 
   // book__title
@@ -112,12 +131,14 @@ function createBookCard(book) {
   const deleteButton = document.createElement("button");
   deleteButton.type = "button";
   deleteButton.classList.add("button");
+  deleteButton.classList.add("delete-book");
   deleteButton.textContent = "Delete";
 
   // read status button
   const readStatusButton = document.createElement("button");
   readStatusButton.type = "button";
   readStatusButton.classList.add("button");
+  readStatusButton.classList.add("read-book");
 
   // Changes the content of the read status button to status heading.
   if (book.readStatus === "Read") {
@@ -150,27 +171,11 @@ function displayBook() {
   });
 }
 
-// create 3 book__info for Author, Pages and Status
-function createBookInfo(heading, info, infoClass) {
-  const bookInfo = document.createElement("div");
-  bookInfo.classList.add("book__info");
-
-  const bookHeading = document.createElement("h3");
-  bookHeading.textContent = heading;
-
-  const bookInfoItem = document.createElement("span");
-  bookInfoItem.classList.add(infoClass);
-  bookInfoItem.textContent = info;
-
-  bookInfo.appendChild(bookHeading);
-  bookInfo.appendChild(bookInfoItem);
-
-  return bookInfo;
-}
-
 // open and close modal window
 newBookButton.addEventListener("click", () => {
   modalWrapper.classList.remove("hidden");
+  const titleInput = document.querySelector("#book-title");
+  titleInput.focus();
 });
 
 modalCloseButton.addEventListener("click", closeModal);
@@ -184,6 +189,34 @@ modalAddButton.addEventListener("click", (event) => {
     const newBook = myLibrary[myLibrary.length - 1];
     createBookCard(newBook);
     closeModal();
+  }
+});
+
+library.addEventListener("click", (event) => {
+  const bookCard = event.target.closest(".book");
+  const bookId = bookCard.id;
+  const bookIndex = myLibrary.findIndex((book) => book.id === bookId);
+  const readStatusSpan = bookCard.querySelector(".book__read");
+
+  if (event.target.classList.contains("delete-book")) {
+    myLibrary.splice(bookIndex, 1);
+    library.removeChild(bookCard);
+  }
+
+  if (event.target.classList.contains("read-book")) {
+    if (event.target.textContent === "Read") {
+      event.target.textContent = "Not Read";
+      event.target.classList.remove("button--success");
+      event.target.classList.add("button--error");
+      readStatusSpan.textContent = "Read";
+      myLibrary[bookIndex].readStatus = "Read";
+    } else {
+      event.target.textContent = "Read";
+      event.target.classList.remove("button--error");
+      event.target.classList.add("button--success");
+      readStatusSpan.textContent = "Not read yet";
+      myLibrary[bookIndex].readStatus = "Not read yet";
+    }
   }
 });
 
