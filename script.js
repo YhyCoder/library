@@ -61,6 +61,7 @@ function addNewBook() {
     }
   });
 
+  // check that the inputs are not empty
   if (!title || !author || !pages) {
     alert("Please fill all the fields!");
     return;
@@ -153,6 +154,7 @@ function createBookCard(book) {
   buttonWrapper.appendChild(readStatusButton);
 }
 
+// reset modal input when use modal buttons
 function resetModalInput() {
   modalInputs.forEach((input) => {
     input.value = "";
@@ -160,11 +162,32 @@ function resetModalInput() {
   switchCheckbox.checked = false;
 }
 
+// close modal window when use modal buttons
 function closeModal() {
   resetModalInput();
   modalWrapper.classList.add("hidden");
 }
 
+// delete book card
+function handleDeleteButton(book, bookIndex) {
+  myLibrary.splice(bookIndex, 1);
+  library.removeChild(book);
+}
+
+// change book read status
+function handleReadButton(book, bookIndex, button) {
+  const readStatusSpan = book.querySelector(".book__read");
+  const isRead = myLibrary[bookIndex].readStatus === "Read";
+
+  button.textContent = isRead ? "Read" : "Not Read";
+  button.classList.toggle("button--error", !isRead);
+  button.classList.toggle("button--success", isRead);
+
+  myLibrary[bookIndex].readStatus = isRead ? "Not read yet" : "Read";
+  readStatusSpan.textContent = myLibrary[bookIndex].readStatus;
+}
+
+// display available book in the array
 function displayBook() {
   myLibrary.forEach((book) => {
     createBookCard(book);
@@ -178,10 +201,13 @@ newBookButton.addEventListener("click", () => {
   titleInput.focus();
 });
 
+// use x icon to close modal window
 modalCloseButton.addEventListener("click", closeModal);
 
+// cancel adding book in modal window
 modalCancelButton.addEventListener("click", closeModal);
 
+// add new book to library
 modalAddButton.addEventListener("click", (event) => {
   event.preventDefault();
   const isBookAdded = addNewBook();
@@ -192,31 +218,17 @@ modalAddButton.addEventListener("click", (event) => {
   }
 });
 
+// add delete and change reading status for book card
 library.addEventListener("click", (event) => {
   const bookCard = event.target.closest(".book");
   const bookId = bookCard.id;
   const bookIndex = myLibrary.findIndex((book) => book.id === bookId);
-  const readStatusSpan = bookCard.querySelector(".book__read");
 
   if (event.target.classList.contains("delete-book")) {
-    myLibrary.splice(bookIndex, 1);
-    library.removeChild(bookCard);
+    handleDeleteButton(bookCard, bookIndex);
   }
-
   if (event.target.classList.contains("read-book")) {
-    if (event.target.textContent === "Read") {
-      event.target.textContent = "Not Read";
-      event.target.classList.remove("button--success");
-      event.target.classList.add("button--error");
-      readStatusSpan.textContent = "Read";
-      myLibrary[bookIndex].readStatus = "Read";
-    } else {
-      event.target.textContent = "Read";
-      event.target.classList.remove("button--error");
-      event.target.classList.add("button--success");
-      readStatusSpan.textContent = "Not read yet";
-      myLibrary[bookIndex].readStatus = "Not read yet";
-    }
+    handleReadButton(bookCard, bookIndex, event.target);
   }
 });
 
